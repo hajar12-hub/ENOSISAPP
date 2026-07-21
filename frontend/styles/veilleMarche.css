@@ -1,0 +1,196 @@
+/* ═══════════════════════════════════════════════════════════════
+   Veille Marché — Collecte (wizard)
+   Basé entièrement sur les tokens et classes du design system global
+   (var(--color-*), .button, .field-group, .badge, .alert, .meta-field)
+   ═══════════════════════════════════════════════════════════════ */
+
+.veille-marche-wizard {
+  display: grid;
+  gap: var(--space-lg);
+  padding-bottom: 96px; /* place pour le footer sticky */
+}
+
+.veille-marche-progress-header {
+  display: grid;
+  gap: 6px;
+}
+
+.veille-marche-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-caption);
+  color: var(--color-text-soft);
+}
+
+.veille-marche-progress-context {
+  color: var(--color-primary-dark);
+  font-weight: var(--font-weight-semibold);
+}
+
+.veille-marche-wizard__content {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.veille-marche-step-card {
+  margin-bottom: var(--space-md);
+}
+
+.veille-marche-form {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.veille-marche-selection-list {
+  display: grid;
+  gap: 10px;
+}
+
+.veille-marche-selection-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.veille-marche-segment-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.veille-marche-segment-chip {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-body-sm);
+  cursor: pointer;
+  transition: all var(--motion-fast);
+}
+
+.veille-marche-segment-chip:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.veille-marche-segment-chip.is-active {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  border-color: transparent;
+  color: #ffffff;
+}
+
+.veille-marche-marque-block {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.veille-marche-marque-block__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border-soft);
+}
+
+.veille-marche-sku-row {
+  padding: var(--space-md) 0;
+  border-top: 1px dashed var(--color-border);
+}
+
+.veille-marche-sku-row:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.veille-marche-sku-row__label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.veille-marche-recap-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: var(--space-lg);
+}
+
+.veille-marche-wizard-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--color-border);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.veille-marche-wizard-footer .button {
+  min-width: 130px;
+}
+
+/* Le design system global n'a pas de variante d'erreur sur .input-base/
+   .select-base — on l'ajoute ici, en cohérence avec .alert--error /
+   var(--color-danger) déjà utilisés partout ailleurs. */
+.input-base.is-invalid,
+.select-base.is-invalid {
+  border-color: var(--color-danger);
+}
+
+.input-base.is-invalid:focus,
+.select-base.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .veille-marche-recap-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .veille-marche-selection-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .veille-marche-marque-block__header {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 900px) {
+  .veille-marche-wizard {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .veille-marche-wizard-footer {
+    max-width: 640px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 16px 16px 0 0;
+  }
+}

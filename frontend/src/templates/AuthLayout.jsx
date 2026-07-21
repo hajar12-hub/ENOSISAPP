@@ -1,0 +1,1 @@
+export default function AuthLayout({ children }) { return <main className="auth-page"><section className="auth-card"><img className="brand-logo" src="/image_enosisapp.png" alt="Enosis"/>{children}</section></main> }
