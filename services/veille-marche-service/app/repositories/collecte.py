@@ -33,7 +33,9 @@ class VisiteRepository:
 class ReleveRepository:
     @staticmethod
     def list_all(visite_id=None):
-        qs = Releve.objects.select_related("visite", "sku", "sku__marque").all()
+        qs = Releve.objects.select_related(
+            "visite", "sku", "sku__marque", "sku__marque__segment__sous_categorie"
+        ).prefetch_related("sku__marque__s_marques__sous_categorie", "sku__marque__concurents__sous_categorie").all()
         if visite_id:
             qs = qs.filter(visite_id=visite_id)
         return qs

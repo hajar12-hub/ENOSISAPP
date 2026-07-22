@@ -5,10 +5,12 @@ from app.models import Magasin, Visite, Releve
 
 class MagasinSerializer(serializers.ModelSerializer):
     adresse_nom = serializers.CharField(source="adresse.nom", read_only=True, default="")
+    secteur_nom = serializers.CharField(source="secteur.nom", read_only=True)
+    ville_nom = serializers.CharField(source="ville.nom", read_only=True)
     class Meta:
         model = Magasin
         fields = [
-            "id", "nom", "secteur", "canal", "ville", "adresse", "adresse_nom",
+            "id", "nom", "secteur", "secteur_nom", "canal", "ville", "ville_nom", "adresse", "adresse_nom",
             "created_at", "updated_at",
         ]
         read_only_fields = ["id", "created_at", "updated_at"]
@@ -49,11 +51,37 @@ class VisiteSerializer(serializers.ModelSerializer):
 class ReleveSerializer(serializers.ModelSerializer):
     sku_nom = serializers.CharField(source="sku.nom", read_only=True)
     marque_nom = serializers.CharField(source="sku.marque.nom", read_only=True)
+    categorie_nom = serializers.SerializerMethodField()
+    sous_categorie = serializers.SerializerMethodField()
+    sous_categorie_nom = serializers.SerializerMethodField()
+    segment_nom = serializers.CharField(source="sku.marque.segment.nom", read_only=True, default="")
+
+    def _sous_categorie(self, obj):
+        marque = obj.sku.marque
+        if marque.segment_id:
+            return marque.segment.sous_categorie
+        s_marque = marque.s_marques.select_related("sous_categorie").first()
+        if s_marque:
+            return s_marque.sous_categorie
+        concurrent = marque.concurents.select_related("sous_categorie").first()
+        return concurrent.sous_categorie if concurrent else None
+
+    def get_sous_categorie(self, obj):
+        sous_categorie = self._sous_categorie(obj)
+        return str(sous_categorie.id) if sous_categorie else None
+
+    def get_sous_categorie_nom(self, obj):
+        sous_categorie = self._sous_categorie(obj)
+        return sous_categorie.nom if sous_categorie else ""
+
+    def get_categorie_nom(self, obj):
+        sous_categorie = self._sous_categorie(obj)
+        return sous_categorie.categorie.nom if sous_categorie else ""
 
     class Meta:
         model = Releve
         fields = [
-            "id", "visite", "sku", "sku_nom", "marque_nom",
+            "id", "visite", "sku", "sku_nom", "marque_nom", "categorie_nom", "sous_categorie", "sous_categorie_nom", "segment_nom",
             "prix_conso_ttc", "prix_detail_ttc",
             "remise_detail_pct", "prix_gros_ttc", "remise_gros_pct",
             "promotion", "commentaire", "photo_url",
