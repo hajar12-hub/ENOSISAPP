@@ -14,9 +14,6 @@ class Releve(models.Model):
     remise_detail_pct = models.FloatField(null=True, blank=True)
     prix_gros_ttc = models.FloatField(null=True, blank=True)
     remise_gros_pct = models.FloatField(null=True, blank=True)
-    promotion = models.CharField(max_length=255, blank=True, default="")
-    commentaire = models.TextField(blank=True, default="")
-    photo_url = models.URLField(blank=True, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

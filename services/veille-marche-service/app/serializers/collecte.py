@@ -84,7 +84,6 @@ class ReleveSerializer(serializers.ModelSerializer):
             "id", "visite", "sku", "sku_nom", "marque_nom", "categorie_nom", "sous_categorie", "sous_categorie_nom", "segment_nom",
             "prix_conso_ttc", "prix_detail_ttc",
             "remise_detail_pct", "prix_gros_ttc", "remise_gros_pct",
-            "promotion", "commentaire", "photo_url",
             "created_at", "updated_at",
         ]
         read_only_fields = ["id", "created_at", "updated_at"]
@@ -100,9 +99,7 @@ class ReleveBulkItemSerializer(serializers.Serializer):
     remise_detail_pct = serializers.FloatField(required=False, allow_null=True)
     prix_gros_ttc = serializers.FloatField(required=False, allow_null=True)
     remise_gros_pct = serializers.FloatField(required=False, allow_null=True)
-    promotion = serializers.CharField(required=False, allow_blank=True, max_length=255)
-    commentaire = serializers.CharField(required=False, allow_blank=True)
-    photo_url = serializers.URLField(required=False, allow_blank=True)
+
 
 class ReleveBulkCreateSerializer(serializers.Serializer):
     """Payload de POST /veille-marche/releves/ pour créer plusieurs
